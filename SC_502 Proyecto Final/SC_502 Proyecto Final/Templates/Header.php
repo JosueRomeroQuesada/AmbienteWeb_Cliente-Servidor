@@ -38,7 +38,14 @@
                 </ul>
                 <ul class="header-links pull-right">
                     
-                    <li><a href="Login.php"><i class="fa fa-user-o"></i> Mi Cuenta</a></li>
+                    <li><a href="Login.php"><i class="fa fa-user-o"></i> Iniciar sesion</a></li>
+
+                    
+                </ul>
+                <ul class="header-links pull-right">
+                    
+                    <li><a href="Registro.php"><i class="fa fa-user-o"></i> Registro</a></li>
+                    
                     
                 </ul>
             </div>

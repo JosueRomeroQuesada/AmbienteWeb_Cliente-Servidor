@@ -14,7 +14,49 @@
     <link rel="stylesheet" href="css/Login.css">
 
 </head>
+<?php
 
+
+
+$errores = [];
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST')  {
+    require_once "include/functions/recoge.php";
+
+    $correo = recogePost("correo");
+    $contrasenna = recogePost("contrasenna");
+
+    //Investigar expresiones regulares en php
+
+    $correoOK= false;
+    $contrasennaOK = false;
+
+    if ($correo == "") {
+        $errores[] = "El email es obligatorio o no válido";
+    } 
+    else
+    {
+        $correoOK= true;
+    }
+    if ($contrasenna == "") {
+        $errores[] = "El password es obligatorio";
+    }
+    else
+    {
+        $contrasennaOK= true;
+    }
+    if ($correoOK && $contrasennaOK ) {
+        // echo "Ingreso de datos a la base de datos";
+        require_once "DAL/usuario.php";
+        if(Verificar($correo,$contrasenna)){
+            header("Location: index.php");
+        }
+    }
+               
+    }
+
+
+?>
 <body>
 
     <main>
@@ -22,37 +64,28 @@
         <div class="container_all">
             <div class="back_box">
                 <div class="back_box-login">
-                <h3>Ya tienes una cuenta?</h3>
-                    <p>Inicia sesion para entrar a la pagina</p>
-                    <button id="btn__sing_in">Iniciar sesion</button>
+                
+                    
                 </div>
-                <div class="back_box-register">
-                    <h3>No tienes cuenta aún?</h3>
-                    <p>Registrate para iniciar Sesion</p>
-                    <button id="btn__register">Registrarse</button>
-                </div>
+                
             </div>
 
             <!--Form login and register-->
             <div class="container__login-register">
                 <!--Login-->
-                <form action="" method="POST" class="form__login">
+                <form method="post" class="form__login">
                     <h2>Iniciar Sesion</h2>
-                    <input type="email" placeholder="Correo" name='email' required>
-                    <input type="password" placeholder="Contraseña" name='pass' required>
+                    <input type="email" name='correo' id="correo"  placeholder="correo"   >
+                    <input type="password" name='contrasenna' id="contrasenna" placeholder="contraseña"   >
+                    <?php
+            
+        ?>
+
                     <button type="submit" name="btnLogin">Sign in</button>
                 </form>
 
-                <!--Register-->
-                <form action="" method="POST" class="form__register">
-                    <h2>Registrarse</h2>
-                    <input type="text" placeholder="Nombres" name="name" required>
-                    <input type="text" placeholder=" Apellidos" name="surname" required>
-                    <input type="text" placeholder="Nombre de Usuario" name="user" required>
-                    <input type="email" placeholder="Correo" name="email" required>
-                    <input type="password" placeholder="Contraseña" name="pass" required>
-                    <button type="submit" name="btnRegister">Registrarse</button>
-                </form>
+                
+                
 
             </div>
         </div>
