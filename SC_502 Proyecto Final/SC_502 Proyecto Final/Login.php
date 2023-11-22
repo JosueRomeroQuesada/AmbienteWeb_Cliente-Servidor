@@ -13,6 +13,11 @@
     <link rel="shortcut icon" href="imgs/shop.png" />
     <link rel="stylesheet" href="css/Login.css">
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.1.9/sweetalert2.all.min.js"></script>
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.1.9/sweetalert2.min.css" />
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+
 </head>
 <?php
 
@@ -64,10 +69,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')  {
         <div class="container_all">
             <div class="back_box">
                 <div class="back_box-login">
-                
-                    
+                    <h3>Ya tienes una cuenta?</h3>
+                    <p>Inicia sesion para entrar en la pagina</p>
+                    <button id="btn__sing_in">Inicias Sesion</button>
                 </div>
-                
+                <div class="back_box-register">
+                    <h3>No tienes una cuenta aún?</h3>
+                    <p>Regístrate con nosotros aquí</p>
+                    <button id="btn__register">Registarse</button>
+                </div>
             </div>
 
             <!--Form login and register-->
@@ -75,21 +85,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')  {
                 <!--Login-->
                 <form method="post" class="form__login">
                     <h2>Iniciar Sesion</h2>
-                    <input type="email" name='correo' id="correo"  placeholder="correo"   >
-                    <input type="password" name='contrasenna' id="contrasenna" placeholder="contraseña"   >
-                    <?php
-            
-        ?>
-
-                    <button type="submit" name="btnLogin">Sign in</button>
+                    <input type="email" name='correo' id="correo"  placeholder="Correo"   >
+                    <input type="password" name='contrasenna' id="contrasenna" placeholder="Contraseña"   >
+                    <button type="submit" name="btnLogin">Iniciar Sesion</button>
                 </form>
 
-                
-                
+                <!--Register-->
+                <form action="" method="POST" class="form__register">
+                    <h2>Registrarse</h2>
+                    <input type="text" placeholder="Nombre" name="nombre" id="nombre" required>
+                    <input type="email" placeholder=" Correo" name="correo" id="correo"required>
+                    <input type="text" placeholder="Contraseña" name="contrasenna" id="contrasenna" required>
+                    <input type="text" placeholder="Apellido" name="apellido" id="apellido" required>
+                    
+                    <button type="submit" name="btnRegister">Registrarse</button>
+                </form>
 
             </div>
         </div>
     </main>
+
+    <script src="js/Login.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 </body>
 
