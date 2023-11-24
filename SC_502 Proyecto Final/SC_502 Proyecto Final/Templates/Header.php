@@ -41,22 +41,12 @@
                         session_start();
                         }
                         
-                 if(isset($_SESSION['usuario'])){ ?>
-                    <li><a href="/AmbienteWeb_Cliente-Servidor/SC_502 Proyecto Final/SC_502 Proyecto Final/DAL/cuenta.php"><i class="fa fa-user-o"></i> Mi cuenta </a></li>
+                 if(isset($_SESSION['user'])){ ?>
+                    <li><a href="DAL/cuenta.php"><i class="fa fa-user-o"></i> Mi cuenta </a></li>
+                    <li><a href="DAL/Logout.php"><i class="fa fa-user-o"></i> Cerrar Sesión </a></li>
                 <?php }else{?>
-                    <li><a href="Login.php"><i class="fa fa-user-o"></i> Iniciar sesion</a></li>
-
-
-                    
-                </ul>
-                <ul class="header-links pull-right">
-                    
-                    <li><a href="Registro.php"><i class="fa fa-user-o"></i> Registro</a></li>
-                    
-                    
-
+                    <li><a href="Login.php"><i class="fa fa-user-o"></i> Iniciar Sesión</a></li>
                     <?php }?>
-
                 </ul>
             </div>
         </div>
