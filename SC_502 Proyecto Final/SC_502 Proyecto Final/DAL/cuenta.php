@@ -1,12 +1,12 @@
 <?php
 include '../ConnDB.php';
 session_start();
-if(!isset($_SESSION['user'])){
+if(!isset($_SESSION['usuario'])){
 header("Location: /AmbienteWeb_Cliente-Servidor/SC_502 Proyecto Final/SC_502 Proyecto Final/DAL/cuenta.php");
 }
 
 
-$ses = $_SESSION['user'];
+$ses = $_SESSION['usuario'];
 
 // Conexión a la base de datos MySQL
 $mysqli = new mysqli("localhost", "root", "", "lubricentro");
