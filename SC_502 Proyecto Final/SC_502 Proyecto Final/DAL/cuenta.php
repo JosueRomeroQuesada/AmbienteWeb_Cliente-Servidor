@@ -2,10 +2,9 @@
 include '../ConnDB.php';
 session_start();
 if(!isset($_SESSION['user'])){
-header("Location: /ProyectoLenguajes/index.php");
+header("Location: /AmbienteWeb_Cliente-Servidor/SC_502 Proyecto Final/SC_502 Proyecto Final/DAL/cuenta.php");
 }
 
-session_start();
 
 $ses = $_SESSION['user'];
 
@@ -25,16 +24,22 @@ $stmt->bind_param("s", $ses);
 $stmt->execute();
 
 // Obtener el resultado del procedimiento almacenado
-$result = $mysqli->query("SELECT @result AS result");
-$row = $result->fetch_assoc();
+$result = $mysqli->query("SELECT @result AS result, @nombre AS nombre");
+//*******************el error esta aqui abajo***********************************
+// $row = $result->fetch_assoc();
 
 // Trabajar con los resultados
 if ($row['result'] == 1) {
-    // El procedimiento almacenado se ejecutó correctamente
-    // Acciones adicionales según tus necesidades
+    // Accede a los datos del usuario
+    if (isset($row['nombre'])) {
+        echo utf8_decode($row['nombre']);
+    } else {
+        echo "Nombre no disponible";
+    }
 } else {
     // El procedimiento almacenado no se ejecutó correctamente
-    // Acciones adicionales según tus necesidades
+    // Muestra mensajes de error detallados
+    echo "Error en el procedimiento almacenado: " . $stmt->error;
 }
 
 // Cerrar la conexión
@@ -81,14 +86,14 @@ $mysqli->close();
                     <div class="col-md-6">
                         <h5>Nombre:</h5>
                         <div class="form-field d-flex align-items-center">
-                            <?php echo utf8_decode($row['NOMBRE']); ?>
+                            <?php echo utf8_decode($row['nombre']); ?>
                             <input type="text" name="nombre" disabled="disabled">
                         </div>
                     </div>
                     <div class="col-md-6">
                         <h5>Apellido:</h5>
                         <div class="form-field d-flex align-items-center">
-                            <?php echo utf8_decode($row['APELLIDO']); ?>
+                            <?php echo utf8_decode($row['apellido']); ?>
                             <input type="text" name="apellido" disabled="disabled">
                         </div>
                     </div>
@@ -97,7 +102,7 @@ $mysqli->close();
                     <div class="col-md-6">
                         <h5>Correo:</h5>
                         <div class="form-field d-flex align-items-center">
-                            <?php echo utf8_decode($row['CORREO']); ?>
+                            <?php echo utf8_decode($row['correo']); ?>
                             <input type="text" name="correo" disabled="disabled">
                         </div>
                     </div>

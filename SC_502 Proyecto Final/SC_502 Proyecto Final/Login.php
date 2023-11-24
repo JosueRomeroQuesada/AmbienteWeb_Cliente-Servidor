@@ -76,16 +76,22 @@ if(isset($_POST["btnLogin"]))
     include 'User_login.php';
     $correo = $_POST["correo"];
     $contrasenna = $_POST["contrasenna"];
-    $_login_verification = Verification_login($correo,$contrasenna);
+    // echo "correo: " . $correo . "<br>";
+    // echo "contraseña: " . $contrasenna . "<br>";
+
+    $_login_verification = Verification_login($correo, $contrasenna);
+    // echo "Verification result: " . $_login_verification . "<br>";
 
     if($_login_verification > 0){
         
-        $_SESSION['usuario'] = $correo;
-        header("location: index.php"); 
+        $_SESSION['user'] = $correo;
+        header("location: /AmbienteWeb_Cliente-Servidor/SC_502 Proyecto Final/SC_502 Proyecto Final/index.php"); 
+        //echo "inicio sesion:";
     }
     else
     {
-        $_SESSION['usuario'] = null;
+        // $_SESSION['idUsuario'] = null;
+        session_destroy(); // Cierra completamente la sesión
         echo ' <script type="text/javascript">
         $(document).ready(function() {  
             Swal.fire({
@@ -93,7 +99,7 @@ if(isset($_POST["btnLogin"]))
                 title: "Vaya...",
                 text: "Lo sentimos, su correo electronico o contraeña son incorrectos, intentelo de nuevo."
             }).then(function() {
-            document.location.href = "/AmbienteWeb_Cliente-Servidor/SC_502 Proyecto Final/SC_502 Proyecto Final/Login.php";
+            document.location.href = "/AmbienteWeb_Cliente-Servidor/SC_502 Proyecto Final/SC_502 Proyecto Final/login.php";
             })});
         </script>';
     } 
