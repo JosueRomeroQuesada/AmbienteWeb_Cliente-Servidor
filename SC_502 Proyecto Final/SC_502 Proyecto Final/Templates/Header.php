@@ -15,25 +15,11 @@
     <!-- Bootstrap -->
     <link type="text/css" rel="stylesheet" href="css/bootstrap.min.css" />
 
-    <!-- Slick -->
-    <link type="text/css" rel="stylesheet" href="css/slick.css" />
-    <link type="text/css" rel="stylesheet" href="css/slick-theme.css" />
-
-    <!-- nouislider -->
-    <link type="text/css" rel="stylesheet" href="css/nouislider.min.css" />
-
     <!-- Font Awesome Icon -->
     <link rel="stylesheet" href="css/font-awesome.min.css">
 
     <!-- Custom stlylesheet -->
     <link type="text/css" rel="stylesheet" href="css/style.css" />
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.1.9/sweetalert2.all.min.js"></script>
-    <link rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.1.9/sweetalert2.min.css" />
-
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-
 
 
 
@@ -59,9 +45,19 @@
                     <li><a href="/AmbienteWeb_Cliente-Servidor/SC_502 Proyecto Final/SC_502 Proyecto Final/DAL/cuenta.php"><i class="fa fa-user-o"></i> Mi cuenta </a></li>
                 <?php }else{?>
                     <li><a href="Login.php"><i class="fa fa-user-o"></i> Iniciar sesion</a></li>
-                    <?php }?>
+
+
+                    
                 </ul>
-            
+                <ul class="header-links pull-right">
+                    
+                    <li><a href="Registro.php"><i class="fa fa-user-o"></i> Registro</a></li>
+                    
+                    
+
+                    <?php }?>
+
+                </ul>
             </div>
         </div>
         <!-- /TOP HEADER -->
