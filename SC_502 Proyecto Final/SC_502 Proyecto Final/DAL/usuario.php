@@ -127,3 +127,58 @@ function getObject($sql) {
     return $retorno;
 }
 
+// Función para recuperar contraseña
+function recuperarContrasena($correo) {
+    $retorno = false;
+ 
+    try {
+        $oConexion = Conecta();
+ 
+        // formato utf8
+        if (mysqli_set_charset($oConexion, "utf8")) {
+            $query = "SELECT idUsuario, nombre, correo FROM usuario WHERE correo = ?";
+            $stmt = $oConexion->prepare($query);
+            $stmt->bind_param("s", $correo);
+            $stmt->execute();
+            $stmt->store_result();
+            $stmt->bind_result($idUsuario, $nombre, $correo);
+ 
+            if ($stmt->fetch()) {
+                // Generar una nueva contraseña aleatoria
+                $nuevaContrasena = generarContrasenaAleatoria();
+ 
+                // Actualizar la contraseña en la base de datos
+                $hashedPassword = password_hash($nuevaContrasena, PASSWORD_DEFAULT);
+                $updateQuery = "UPDATE usuario SET contrasenna = ? WHERE correo = ?";
+                $updateStmt = $oConexion->prepare($updateQuery);
+                $updateStmt->bind_param("ss", $hashedPassword, $correo);
+                $updateStmt->execute();
+ 
+                // Enviar la nueva contraseña por correo electrónico
+                enviarCorreo($correo, $nuevaContrasena);
+ 
+                $retorno = true;
+            } else {
+                // El usuario con el correo proporcionado no existe
+                $retorno = false;
+            }
+        }
+    } catch (\Throwable $th) {
+        // Bitácora
+        echo $th;
+    } finally {
+        Desconecta($oConexion);
+    }
+ 
+    return $retorno;
+}
+
+
+function generarContrasenaAleatoria($longitud = 8) {
+    $caracteres = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    $contrasena = '';
+    for ($i = 0; $i < $longitud; $i++) {
+        $contrasena .= $caracteres[rand(0, strlen($caracteres) - 1)];
+    }
+    return $contrasena;
+}

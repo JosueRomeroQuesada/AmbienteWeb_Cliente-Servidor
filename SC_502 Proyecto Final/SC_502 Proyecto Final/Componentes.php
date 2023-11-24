@@ -2,7 +2,7 @@
 include 'templates/Header.php';
 include 'ConnDB.php';
 ?>
-
+ 
 <?php
 $conexion = ConnectDB();
 // Consulta SQL para obtener los productos de la categoría "Aceites"
@@ -10,8 +10,8 @@ $sql = "SELECT * FROM producto WHERE idCategoria = 3"; //"Aceites" tiene idCateg
 // Ejecuta la consulta
 $resultado = mysqli_query($conexion, $sql);
 ?>
-
-
+ 
+ 
 <!-- NAVEGACION ---- pestañas de navegación-->
 <nav id="navigation">
     <div class="container">
@@ -27,8 +27,8 @@ $resultado = mysqli_query($conexion, $sql);
     </div>
 </nav>
 <!-- /NAVEGACION -->
-
-
+ 
+ 
 <!-- SECTION -------- panel donde se muestra todos los productos -->
 <div class="section">
     <div class="container">
@@ -66,16 +66,16 @@ $resultado = mysqli_query($conexion, $sql);
                 <?php
             }
             ?>
-
+ 
         </div>
     </div>
 </div>
 <!-- /SECTION ---- /panel donde se muestran todos los productos -->
-
+ 
 <?php
 Desconecta($conexion);
 ?>
-
+ 
 <?php
 include 'templates/Footer.php';
 ?>
