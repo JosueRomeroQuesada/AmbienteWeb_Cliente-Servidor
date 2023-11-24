@@ -16,45 +16,83 @@
 </head>
 <?php
 
-
-
 $errores = [];
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST')  {
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     require_once "include/functions/recoge.php";
 
+    $nombre = recogePost("nombre");
     $correo = recogePost("correo");
     $contrasenna = recogePost("contrasenna");
+    $apellido = recogePost("apellido");
 
     //Investigar expresiones regulares en php
 
-    $correoOK= false;
-    $contrasennaOK = false;
+    $nombreOK = false;
+    $correoOK = false;
+    $contrasennaOK= false;
+    $apellidoOK =false;
 
+    if ($nombre == "") {
+        $errores[] = "No se digito el nombre del estudiante";
+    } else {
+        $nombreOK = true;
+    }
     if ($correo == "") {
-        $errores[] = "El email es obligatorio o no válido";
-    } 
-    else
-    {
-        $correoOK= true;
+        $errores[] = "No se digito el correo del estudiante";
+    } else {
+        $correoOK = true;
     }
+    
+    
     if ($contrasenna == "") {
-        $errores[] = "El password es obligatorio";
+        $errores[] = "No se digito la contraseña del estudiante";
+    } else {
+        $contrasennaOK = true;
     }
-    else
-    {
-        $contrasennaOK= true;
+    if ($apellido == "") {
+        $errores[] = "No se digito el teléfono del estudiante";
+    } else {
+        $apellidoOK = true;
     }
-    if ($correoOK && $contrasennaOK ) {
+
+
+    if ($nombreOK && $contrasennaOK && $correoOK&& $apellidoOK) {
         // echo "Ingreso de datos a la base de datos";
         require_once "DAL/usuario.php";
-        if(Verificar($correo,$contrasenna)){
+        if(Registro($nombre, $correo, $contrasenna,$apellido)){
             header("Location: index.php");
         }
     }
-               
-    }
+}
 
+if(isset($_POST["btnLogin"]))
+{
+    include 'User_login.php';
+    $correo = $_POST["correo"];
+    $contrasenna = $_POST["contrasenna"];
+    $_login_verification = Verification_login($correo,$contrasenna);
+
+    if($_login_verification > 0){
+        
+        $_SESSION['usuario'] = $correo;
+        header("location: index.php"); 
+    }
+    else
+    {
+        $_SESSION['usuario'] = null;
+        echo ' <script type="text/javascript">
+        $(document).ready(function() {  
+            Swal.fire({
+                icon: "error",
+                title: "Vaya...",
+                text: "Lo sentimos, su correo electronico o contraeña son incorrectos, intentelo de nuevo."
+            }).then(function() {
+            document.location.href = "/AmbienteWeb_Cliente-Servidor/SC_502 Proyecto Final/SC_502 Proyecto Final/Login.php";
+            })});
+        </script>';
+    } 
+}
 
 ?>
 <body>

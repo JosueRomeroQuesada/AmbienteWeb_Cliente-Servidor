@@ -37,8 +37,15 @@
                                 class="fa fa-envelope-o"></i>Example@outlook.com</a></li>
                 </ul>
                 <ul class="header-links pull-right">
-                    
+                <?php if(!isset($_SESSION)){
+                        session_start();
+                        }
+                        
+                 if(isset($_SESSION['usuario'])){ ?>
+                    <li><a href="/AmbienteWeb_Cliente-Servidor/SC_502 Proyecto Final/SC_502 Proyecto Final/DAL/cuenta.php"><i class="fa fa-user-o"></i> Mi cuenta </a></li>
+                <?php }else{?>
                     <li><a href="Login.php"><i class="fa fa-user-o"></i> Iniciar sesion</a></li>
+
 
                     
                 </ul>
@@ -47,6 +54,9 @@
                     <li><a href="Registro.php"><i class="fa fa-user-o"></i> Registro</a></li>
                     
                     
+
+                    <?php }?>
+
                 </ul>
             </div>
         </div>

@@ -6,12 +6,12 @@ if(isset($_SESSION['user'])){
     header("Location: index.php");
 }
 
-function Verification_login($email, $pass)
+function Verification_login($correo, $contrasenna)
 {
     include 'ConnDB.php';
 
     // Conecta a la base de datos MySQL.
-    $link = mysqli_connect(DB_SERVER, DB_USERNAME, DB_PASSWORD, DB_NAME);
+    $link = mysqli_connect("localhost", "root", "", "lubricentro");
 
     // Verifica si la conexión fue exitosa.
     if ($link === false) {
@@ -19,10 +19,10 @@ function Verification_login($email, $pass)
     }
 
     // Escapa los valores de $email y $pass para evitar la inyección de SQL.
-    $email = mysqli_real_escape_string($link, $email);
+    $correo = mysqli_real_escape_string($link, $correo);
 
     // Realiza la consulta SQL para verificar las credenciales.
-    $sql = "SELECT * FROM users WHERE email = '$email' AND password = '$pass'";
+    $sql = "SELECT * FROM usuario WHERE correo = '$correo' AND password = '$contrasenna'";
     $result = mysqli_query($link, $sql);
 
     // Verifica si la consulta tuvo éxito y si se encontraron registros.
