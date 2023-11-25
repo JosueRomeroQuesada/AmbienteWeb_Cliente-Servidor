@@ -1,0 +1,5 @@
+Factura de Compra
+-----------------
+Alfombrillas de Goma para Automóvil - $14000.00 x 1
+-----------------
+Total: $14000
