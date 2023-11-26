@@ -12,6 +12,7 @@ include 'templates/Header.php';
                 <li><a href="Accesorios.php">Artículos varios</a></li>
                 <li><a href="Componentes.php">Componentes</a></li>
                 <li><a href="Servicios.php">Servicios</a></li>
+                <li><a href="Productos_admin.php">productos</a></li>
             </ul>
         </div>
     </div>

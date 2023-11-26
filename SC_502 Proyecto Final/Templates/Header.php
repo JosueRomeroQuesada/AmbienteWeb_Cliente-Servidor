@@ -63,6 +63,12 @@
                     <li><a href="Login.php"><i class="fa fa-user-o"></i> Iniciar Sesión</a></li>
                     <li><a href="carrito.php"><i class="fa fa-shopping-cart"></i> Carrito</a></li>
                     <?php }?>
+                    <?php
+                    if(isset($_SESSION['admin'])){ ?>
+                    <li><a href="DAL/cuenta.php"><i class="fa fa-user-o"></i> productos </a></li>
+                    
+                <?php }?>
+                    
                 </ul>
             </div>
         </div>

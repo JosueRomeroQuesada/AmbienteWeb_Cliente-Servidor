@@ -55,12 +55,22 @@ function Verificar($pcorreo, $pcontrasenna) {
 
                 if ($stmt->fetch()) {
                     if (password_verify($pcontrasenna, $contrasenna)) {
-                        
+
+                        if($idRol != 1)
+                        {
+                        session_start();
+                        $_SESSION['admin'] = $correo;
+                        $_SESSION['idUsuario'] = $idUsuario;
+                        $_SESSION['login'] = true;
+
+                        $retorno = true;
+
+                        }else{
                         session_start();
                         $_SESSION['usuario'] = $correo;
                         $_SESSION['idUsuario'] = $idUsuario;
                         $_SESSION['login'] = true;
-                        
+                        }
                         
                     } else {
                         $errores[] = "La contraseña no es válida";
