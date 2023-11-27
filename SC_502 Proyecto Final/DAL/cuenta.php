@@ -1,12 +1,13 @@
 <?php
 include '../ConnDB.php';
 session_start();
-if(!isset($_SESSION['user'])){
-header("Location: /AmbienteWeb_Cliente-Servidor/SC_502 Proyecto Final/SC_502 Proyecto Final/DAL/cuenta.php");
+
+if (!isset($_SESSION['usuario'])) {
+    header("Location: /AmbienteWeb_Cliente-Servidor/SC_502 Proyecto Final/SC_502 Proyecto Final/DAL/cuenta.php");
+    exit();
 }
 
-
-$ses = $_SESSION['user'];
+$ses = $_SESSION['usuario'];
 
 // Conexión a la base de datos MySQL
 $mysqli = new mysqli("localhost", "root", "", "lubricentro");
@@ -20,30 +21,43 @@ if ($mysqli->connect_error) {
 $sql = "CALL MostrarCuenta(?, @result)";
 
 $stmt = $mysqli->prepare($sql);
+
+if ($stmt === false) {
+    die("Error de preparación del procedimiento almacenado: " . $mysqli->error);
+}
+
 $stmt->bind_param("s", $ses);
 $stmt->execute();
 
-// Obtener el resultado del procedimiento almacenado
-$result = $mysqli->query("SELECT @result AS result, @nombre AS nombre");
-//*******************el error esta aqui abajo***********************************
-// $row = $result->fetch_assoc();
+// Cerrar los resultados para evitar el error "Commands out of sync"
+$stmt->close();
 
-// Trabajar con los resultados
-if ($row['result'] == 1) {
+// Obtener el resultado del procedimiento almacenado
+$result = $mysqli->query("SELECT @result AS result, @nombre AS nombre, @apellido AS apellido, @correo AS correo");
+
+if ($mysqli->error) {
+    die("Error al obtener el resultado del procedimiento almacenado: " . $mysqli->error);
+}
+
+// Obtener el resultado del procedimiento almacenado
+$row = $result->fetch_assoc();
+
+// Verificar si $row no es nulo antes de intentar acceder a sus elementos
+if ($row !== null) {
     // Accede a los datos del usuario
-    if (isset($row['nombre'])) {
-        echo utf8_decode($row['nombre']);
+    if ($row['result'] == 1) {
+        // Accede a los datos del usuario
+        $nombre   = isset($row['nombre']) ? utf8_decode($row['nombre']) : "Nombre no disponible";
+        $apellido = isset($row['apellido']) ? utf8_decode($row['apellido']) : "Apellido no disponible";
+        $correo   = isset($row['correo']) ? utf8_decode($row['correo']) : "Correo no disponible";
     } else {
-        echo "Nombre no disponible";
+        $nombre = $apellido = $correo = "Error en el procedimiento almacenado";
     }
 } else {
-    // El procedimiento almacenado no se ejecutó correctamente
-    // Muestra mensajes de error detallados
-    echo "Error en el procedimiento almacenado: " . $stmt->error;
+    $nombre = $apellido = $correo = "No se encontraron resultados";
 }
 
 // Cerrar la conexión
-$stmt->close();
 $mysqli->close();
 ?>
 
@@ -57,6 +71,8 @@ $mysqli->close();
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Mi Cuenta</title>
+
+    <link rel="shortcut icon" href="img/logo2.png" />
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
@@ -73,7 +89,7 @@ $mysqli->close();
                     <path
                         d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0zm3.5 7.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5z" />
                 </svg>
-                Back
+                Atras
             </button>
         </a>
         <div class="wrapper">

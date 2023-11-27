@@ -10,13 +10,13 @@
     <title>LubriCentro</title>
 
 
-    <!-- Bootstrap -->
-    <link type="text/css" rel="stylesheet" href="css/bootstrap.min.css" />
+    <link rel="shortcut icon" href="img/logo2.png" />
     
     <!-- Google font -->
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,700" rel="stylesheet">
 
-    
+    <!-- Bootstrap -->
+    <link type="text/css" rel="stylesheet" href="css/bootstrap.min.css" />
 
     <!-- Slick -->
     <link type="text/css" rel="stylesheet" href="css/slick.css" />
@@ -48,8 +48,8 @@
             <div class="container">
                 <ul class="header-links pull-left">
                     <li><a href="tel:50600000000"><i class="fa fa-phone"></i> (+506) 2206-8600</a></li>
-                    <li><a href="mailto:Example@outlook.com?Subject=Interested%20in%20the%20products"><i
-                                class="fa fa-envelope-o"></i>Example@outlook.com</a></li>
+                    <li><a href="mailto:lubricentro2023@outloook.com?Subject=Interested%20in%20the%20products"><i
+                                class="fa fa-envelope-o"></i>lubricentro2023@outloook.com</a></li>
                 </ul>
                 <ul class="header-links pull-right">
                 <?php if(!isset($_SESSION)){

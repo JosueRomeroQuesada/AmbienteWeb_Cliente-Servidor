@@ -138,7 +138,7 @@ function getObject($sql) {
 }
 
 // Función para recuperar contraseña
-function recuperarContrasena($correo) {
+function recuperarContrasena2($correo) {
     $retorno = false;
  
     try {
@@ -191,4 +191,107 @@ function generarContrasenaAleatoria($longitud = 8) {
         $contrasena .= $caracteres[rand(0, strlen($caracteres) - 1)];
     }
     return $contrasena;
+}
+
+
+
+
+
+// use PHPMailer\PHPMailer\PHPMailer;
+// use PHPMailer\PHPMailer\Exception;
+
+// Incluye la clase PHPMailer y las excepciones de PHPMailer
+require 'PHPMailer/src/Exception.php';
+require 'PHPMailer/src/PHPMailer.php';
+require 'PHPMailer/src/SMTP.php';
+
+
+function enviarCorreo($destinatario, $asunto, $mensaje) {
+    $mail = new PHPMailer(true);
+
+    try {
+        // Configuración del servidor SMTP
+        $mail->isSMTP();
+        $mail->Host       = 'smtp.outlook.com'; 
+        $mail->SMTPAuth   = true;
+        $mail->Username   = 'lubricentro2023@outloook.com'; 
+        $mail->Password   = 'Lubric3ntro'; 
+        $mail->SMTPSecure = 'tls';
+        $mail->Port       = 587;
+
+        // Configuración del remitente y destinatario
+        $mail->setFrom('username', 'LubriCentro');
+        $mail->addAddress($destinatario);
+
+        // Contenido del correo
+        $mail->isHTML(true);
+        $mail->Subject = $asunto;
+        $mail->Body    = $mensaje;
+
+        $mail->send();
+        return true;
+    } catch (Exception $e) {
+        return false;
+    }
+}
+
+function recuperarContrasena($correo) {
+    // Lógica para recuperar la contraseña
+
+    // Generar nueva contraseña
+    $nuevaContrasena = generarNuevaContrasena();
+
+    // Actualizar en la base de datos
+    if (actualizarContrasenaEnBaseDeDatos($correo, $nuevaContrasena)) {
+
+        // Enviar la nueva contraseña por correo electrónico
+        $asunto = "Recuperación de Contraseña";
+        $mensaje = "Tu nueva contraseña es: $nuevaContrasena";
+
+        // Enviar correo electrónico
+        if (enviarCorreo($correo, $asunto, $mensaje)) {
+            return true; // Éxito
+        } else {
+            return false; // Error al enviar el correo
+        }
+    } else {
+        return false; // Error al actualizar la contraseña en la base de datos
+    }
+}
+
+function generarNuevaContrasena($longitud = 10) {
+    // Genera una nueva contraseña aleatoria de longitud especificada
+    $caracteres = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    $nuevaContrasena = '';
+    
+    for ($i = 0; $i < $longitud; $i++) {
+        $nuevaContrasena .= $caracteres[rand(0, strlen($caracteres) - 1)];
+    }
+    
+    return $nuevaContrasena;
+}
+
+function actualizarContrasenaEnBaseDeDatos($correo, $nuevaContrasena) {
+    // Lógica para actualizar la contraseña en la base de datos
+    // Debes implementar esta función según la estructura de tu base de datos
+
+    // Ejemplo usando MySQLi
+    $conexion = new mysqli("localhost", "root", "", "lubricentro");
+
+    // Verifica la conexión
+    if ($conexion->connect_error) {
+        die("Error de conexión: " . $conexion->connect_error);
+    }
+
+    // Actualiza la contraseña en la base de datos
+    $consulta = $conexion->prepare("UPDATE usuario SET contrasenna = ? WHERE correo = ?");
+    $consulta->bind_param("ss", $nuevaContrasena, $correo);
+
+    $resultado = $consulta->execute();
+
+    // Cierra la conexión y la consulta
+    $consulta->close();
+    $conexion->close();
+
+    return $resultado;
 }
