@@ -40,6 +40,18 @@ if (isset($_POST['eliminar'])) {
 
 ?>
 
+<nav id="navigation">
+    <div class="container">
+        <div id="responsive-nav">
+            <ul class="main-nav nav navbar-nav">
+                <li class="active"><a href="Productos_admin.php">CRUD Productos</a></li>
+                <li ><a  href="Categoria_admin.php">CRUD Categorias</a></li>
+                <li><a href="*">CRUD Marcas</a></li>
+                
+            </ul>
+        </div>
+    </div>
+</nav>
 <button onClick="redirect()" type="button" class="btn btn-success">Ingresar elemento</button>
 <script type="text/javascript">
     function redirect()
