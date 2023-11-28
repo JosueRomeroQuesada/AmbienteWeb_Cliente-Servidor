@@ -17,6 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 ?>
+
  
  <!DOCTYPE html>
 <html lang="es">
@@ -24,9 +25,35 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Recuperar Contraseña</title>
+
+    <!-- Google font -->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,700" rel="stylesheet">
+
+    <!-- Bootstrap -->
+    <link type="text/css" rel="stylesheet" href="css/bootstrap.min.css" />
+
+    <!-- Custom stlylesheet -->
+    <link type="text/css" rel="stylesheet" href="css/recuperar-pass.css" />
+    <link type="text/css" rel="stylesheet" href="css/style.css" />
+
 </head>
 <body>
-    <h1>Recuperar Contraseña</h1>
+
+
+ <!-- MAIN HEADER -->
+ <div id="header">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="header-logo">
+                    <h1 style="color: white">Recuperar<span style="color: red"> C</span>ontraseña</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 
     <?php
     if (isset($mensaje)) {
@@ -39,9 +66,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     ?>
 
     <form method="post" action="">
+        <p>Por favor, ingresa tu dirección de correo electrónico para recuperar tu contraseña.</p>
         <label for="correo_recuperar">Correo Electrónico:</label>
         <input type="email" id="correo_recuperar" name="correo_recuperar" required>
         <button type="submit">Recuperar Contraseña</button>
     </form>
 </body>
 </html>
+

@@ -1,0 +1,58 @@
+body {
+    background-color: #e3e3e3; /* Fondo blanco */
+    background-image: url(../img/lubriLogo.png);
+    /* background-size: cover; */
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: fixed;
+    color: #000; /* Texto negro */
+    font-family: Arial, sans-serif;
+}
+
+h1 {
+    margin: 50px 200px; /* Centra el h1 horizontal y verticalmente */
+    color: #333;
+    text-align: center;
+}
+
+form {
+    max-width: 400px;
+    margin: 20px auto;
+    padding: 20px;
+    border: 2px solid #000; /* Borde negro */
+    border-radius: 10px;
+    background-color: #fff; /* Fondo blanco */
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    color: #000; /* Texto negro */
+}
+
+input {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 16px;
+    box-sizing: border-box;
+    border: 1px solid #000; /* Borde negro */
+    border-radius: 5px;
+}
+
+button {
+    background-color: #e60000; /* Rojo */
+    color: #fff; /* Texto blanco */
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #ff1a1a; /* Rojo más oscuro al pasar el ratón */
+}
+
+p {
+    color: #000; /* Texto negro */
+    margin-bottom: 10px;
+}

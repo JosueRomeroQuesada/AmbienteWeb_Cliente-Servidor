@@ -197,30 +197,63 @@ function generarContrasenaAleatoria($longitud = 8) {
 
 
 
-// use PHPMailer\PHPMailer\PHPMailer;
-// use PHPMailer\PHPMailer\Exception;
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
 
 // Incluye la clase PHPMailer y las excepciones de PHPMailer
 require 'PHPMailer/src/Exception.php';
 require 'PHPMailer/src/PHPMailer.php';
 require 'PHPMailer/src/SMTP.php';
 
+// Arreglo asociativo de servidores SMTP
+$servidoresSMTP = array(
+    'gmail' => array(
+        'host' => 'smtp.gmail.com',
+        'port' => 587,
+        'username' => 'tu_correo@gmail.com',
+        'password' => '',
+        'encryption' => 'tls',
+    ),
+    'yahoo' => array(
+        'host' => 'smtp.mail.yahoo.com',
+        'port' => 587,
+        'username' => 'tu_correo@yahoo.com',
+        'password' => '',
+        'encryption' => 'tls',
+    ),
+    'outlook' => array(
+        'host' => 'smtp.outlook.com',
+        'port' => 587,
+        'username' => 'lubricentro2023@outlook.com',
+        'password' => '',
+        'encryption' => 'tls',
+    ),
+    // Agrega más proveedores según sea necesario
+);
 
-function enviarCorreo($destinatario, $asunto, $mensaje) {
-    $mail = new PHPMailer(true);
+function enviarCorreo($destinatario, $asunto, $mensaje, $proveedor) {
+    global $servidoresSMTP;
+
+    if (isset($servidoresSMTP[$proveedor])) {
+        $config = $servidoresSMTP[$proveedor];
+        $mail = new PHPMailer(true);
 
     try {
         // Configuración del servidor SMTP
+
+        // *************me da error de autenticacion< intentar con otros host y correos
         $mail->isSMTP();
-        $mail->Host       = 'smtp.outlook.com'; 
-        $mail->SMTPAuth   = true;
-        $mail->Username   = 'lubricentro2023@outloook.com'; 
-        $mail->Password   = 'Lubric3ntro'; 
-        $mail->SMTPSecure = 'tls';
-        $mail->Port       = 587;
+        $mail->Host       = $config['smtp.office365.com']; 
+        $mail->SMTPAuth   = $config[true];
+        // $mail->SMTPAutoTLS = false; 
+        $mail->Username   = $config['lubricentro2023@outloook.com']; 
+        $mail->Password   = $config['Lubric3ntro']; 
+        $mail->SMTPSecure = $config['tls'];
+        $mail->Port       = $config[587];
+
 
         // Configuración del remitente y destinatario
-        $mail->setFrom('username', 'LubriCentro');
+        $mail->setFrom($config['lubricentro2023@outloook.com'], $config['LubriCentro']);
         $mail->addAddress($destinatario);
 
         // Contenido del correo
@@ -231,7 +264,19 @@ function enviarCorreo($destinatario, $asunto, $mensaje) {
         $mail->send();
         return true;
     } catch (Exception $e) {
+        echo "No se pudo enviar el correo (╥_╥). Mailer Error: {$mail->ErrorInfo}";
         return false;
+    }
+}}
+
+function obtenerProveedorCorreo($correo) {
+    // Obtener el proveedor de la dirección de correo electrónico
+    $partesCorreo = explode('@', $correo);
+    
+    if (count($partesCorreo) == 2) {
+        return $partesCorreo[1];
+    } else {
+        return ''; // Devolver cadena vacía si no se puede determinar el proveedor
     }
 }
 
@@ -248,11 +293,17 @@ function recuperarContrasena($correo) {
         $asunto = "Recuperación de Contraseña";
         $mensaje = "Tu nueva contraseña es: $nuevaContrasena";
 
-        // Enviar correo electrónico
-        if (enviarCorreo($correo, $asunto, $mensaje)) {
+        // Determinar el proveedor (puedes implementar lógica adicional para obtener el proveedor)
+        $proveedor = obtenerProveedorCorreo($correo);
+
+        // Enviar correo electrónico con el proveedor
+        if (enviarCorreo($correo, $asunto, $mensaje, $proveedor)) {
             return true; // Éxito
+            echo "El correo se evnvió correctamente";
+
         } else {
             return false; // Error al enviar el correo
+            echo "No se pudo enviar el correo. Mailer Error: {$mail->ErrorInfo}";
         }
     } else {
         return false; // Error al actualizar la contraseña en la base de datos
