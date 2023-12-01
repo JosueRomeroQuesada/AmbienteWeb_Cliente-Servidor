@@ -5,7 +5,7 @@
             <div class="row">
                 <div class="col-sd-4">
                     <div class="footer">
-                        <h3 class="footer-title">NOSOTROS</h3>
+                        <h3 class="footer-title" > <a style="color: white" href="Nosotros.php">Nosotros</h3>
                         <p>Somos una compañía experta en en el cuidado de su motor.</p>
                         <ul class="footer-links">
                             <li><a href="https://goo.gl/maps/j1hzpoEqJMjPs4q36"><i
