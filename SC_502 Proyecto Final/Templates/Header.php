@@ -9,7 +9,7 @@
 
     <title>LubriCentro</title>
 
-
+     
     <link rel="shortcut icon" href="img/logo2.png" />
     
     <!-- Google font -->
@@ -90,17 +90,22 @@
                     <!-- /LOGO -->
 
                     <!-- BARRA BUSQUEDA -->
-                    <div class="col-md-6">
-                        <div class="header-search">
-                            <form>
-
-                                <input class="input" placeholder="Busque aquí">
-                                <button class="search-btn">Buscar</button>
-                            </form>
-                        </div>
-                    </div>
-                    <!-- /BARRA BUSQUEDA -->
+<div class="col-md-6">
+    <div class="header-search">
+        <form>
+            <input class="input" id="search-box" name="search" placeholder="Busque aquí" onkeyup="searchProducts()">
+            <button class="search-btn" type="button">Buscar</button>
+        </form>
+        <div id="suggestions" style="display:none;"></div>                                                    
+    </div>
+</div>
+<!-- /BARRA BUSQUEDA -->
                 </div>
             </div>
-        </div>
+            <script src="js/busqueda.js"></script>
+        </div>       
     </header>
+    
+   
+ 
+    

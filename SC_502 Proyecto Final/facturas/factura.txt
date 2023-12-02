@@ -1,6 +1,5 @@
 Factura de Compra
 -----------------
-Aceite Sintético 5W-30 - $4000.00 x 1
-Llantas Deportivas 17" - $159.99 x 1
+Aceite Sintético 5W-20 - $4400.00 x 1
 -----------------
-Total: $4159.99
+Total: $4400

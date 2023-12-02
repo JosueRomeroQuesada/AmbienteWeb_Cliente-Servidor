@@ -1,6 +1,8 @@
 <?php
 include 'templates/Header.php';
 include 'ConnDB.php';
+require('fpdf186/fpdf.php');
+
 
 $totalCarrito = 0;
 
@@ -56,7 +58,7 @@ function mostrarCarrito()
             echo "<input type='hidden' name='productoId' value='{$idProducto}' />";
             echo "<div class='input-number'>";
             echo "<input type='number' name='cantidad' value='{$cantidad}' min='1' />";
-            echo "<button type='submit' name='actualizar'>Actualizar</button>"; // Botón de actualización
+            echo "<button type='submit' name='actualizar'>Actualizar</button>"; 
             echo "</div>";
             echo "</form>";
             echo "</td>";
@@ -81,30 +83,39 @@ function calcularPrecioTotalCarrito($carrito) {
     return $totalCarrito;
 }
 
-
 function facturaG($totalCarrito)
 {
-    $archivo = fopen('facturas/factura.txt', "w");
-    fwrite($archivo, "Factura de Compra\n");
-    fwrite($archivo, "-----------------\n");
+    $archivoTexto = fopen('facturas/factura.txt', "w");
+    fwrite($archivoTexto, "Factura de Compra\n");
+    fwrite($archivoTexto, "-----------------\n");
     foreach ($_SESSION['carrito'] as $item) {
         $linea = $item['nombre'] . " - $" . $item['precio'] . " x " . $item['cantidad'] . "\n";
-        fwrite($archivo, $linea);
+        fwrite($archivoTexto, $linea);
     }
-    fwrite($archivo, "-----------------\n");
-    fwrite($archivo, "Total: $" . $totalCarrito . "\n");
-    fclose($archivo);
+    fwrite($archivoTexto, "-----------------\n");
+    fwrite($archivoTexto, "Total: $" . $totalCarrito . "\n");
+    fclose($archivoTexto);
+
+    $pdf = new FPDF();
+    $pdf->AddPage();
+    $pdf->SetFont('Arial', 'B', 16);
+    $pdf->Cell(40, 10, 'Factura de Compra', 0, 1);
+    $pdf->Ln(10);
+
+    foreach ($_SESSION['carrito'] as $item) {
+        $linea = $item['nombre'] . " - $" . $item['precio'] . " x " . $item['cantidad'] . "\n";
+        $pdf->Cell(0, 10, utf8_decode($linea), 0, 1);
+    }
+
+    $pdf->Ln(10);
+    $pdf->Cell(0, 10, "Total: $" . $totalCarrito, 0, 1);
+
+    $pdf->Output('facturas/factura.pdf', 'F'); 
 }
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    if (isset($_POST['TotalProductos'])) {
-        facturaG($_POST['TotalProductos']);
-    }
-}
 
 function actualizarCantidad($productoId, $cantidad)
 {
-    
     if (isset($_SESSION['carrito'])) {
         foreach ($_SESSION['carrito'] as $key => &$item) {
             if ($item['idProducto'] == $productoId) {
@@ -116,11 +127,9 @@ function actualizarCantidad($productoId, $cantidad)
     }
 }
 
-
 facturaG($totalCarrito);
 
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -130,6 +139,7 @@ facturaG($totalCarrito);
     <link rel="stylesheet" href="css/style.css">
     <script src="js/carrito.js"></script>
 </head>
+
 <body>
 
     <div class="container">
