@@ -55,12 +55,22 @@ function Verificar($pcorreo, $pcontrasenna) {
 
                 if ($stmt->fetch()) {
                     if (password_verify($pcontrasenna, $contrasenna)) {
-                        
+
+                        if($idRol != 1)
+                        {
+                        session_start();
+                        $_SESSION['admin'] = $correo;
+                        $_SESSION['idUsuario'] = $idUsuario;
+                        $_SESSION['login'] = true;
+
+                        $retorno = true;
+
+                        }else{
                         session_start();
                         $_SESSION['usuario'] = $correo;
                         $_SESSION['idUsuario'] = $idUsuario;
                         $_SESSION['login'] = true;
-                        
+                        }
                         
                     } else {
                         $errores[] = "La contraseña no es válida";
@@ -128,7 +138,7 @@ function getObject($sql) {
 }
 
 // Función para recuperar contraseña
-function recuperarContrasena($correo) {
+function recuperarContrasena2($correo) {
     $retorno = false;
  
     try {
@@ -181,4 +191,158 @@ function generarContrasenaAleatoria($longitud = 8) {
         $contrasena .= $caracteres[rand(0, strlen($caracteres) - 1)];
     }
     return $contrasena;
+}
+
+
+
+
+
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
+// Incluye la clase PHPMailer y las excepciones de PHPMailer
+require 'PHPMailer/src/Exception.php';
+require 'PHPMailer/src/PHPMailer.php';
+require 'PHPMailer/src/SMTP.php';
+
+// Arreglo asociativo de servidores SMTP
+$servidoresSMTP = array(
+    'gmail' => array(
+        'host' => 'smtp.gmail.com',
+        'port' => 587,
+        'username' => 'tu_correo@gmail.com',
+        'password' => '',
+        'encryption' => 'tls',
+    ),
+    'yahoo' => array(
+        'host' => 'smtp.mail.yahoo.com',
+        'port' => 587,
+        'username' => 'tu_correo@yahoo.com',
+        'password' => '',
+        'encryption' => 'tls',
+    ),
+    'outlook' => array(
+        'host' => 'smtp.outlook.com',
+        'port' => 587,
+        'username' => 'lubricentro2023@outlook.com',
+        'password' => '',
+        'encryption' => 'tls',
+    ),
+    // Agrega más proveedores según sea necesario
+);
+
+function enviarCorreo($destinatario, $asunto, $mensaje, $proveedor) {
+    global $servidoresSMTP;
+
+    if (isset($servidoresSMTP[$proveedor])) {
+        $config = $servidoresSMTP[$proveedor];
+        $mail = new PHPMailer(true);
+
+    try {
+        // Configuración del servidor SMTP
+
+        // *************me da error de autenticacion< intentar con otros host y correos
+        $mail->isSMTP();
+        $mail->Host       = $config['smtp.office365.com']; 
+        $mail->SMTPAuth   = $config[true];
+        // $mail->SMTPAutoTLS = false; 
+        $mail->Username   = $config['lubricentro2023@outloook.com']; 
+        $mail->Password   = $config['Lubric3ntro']; 
+        $mail->SMTPSecure = $config['tls'];
+        $mail->Port       = $config[587];
+
+
+        // Configuración del remitente y destinatario
+        $mail->setFrom($config['lubricentro2023@outloook.com'], $config['LubriCentro']);
+        $mail->addAddress($destinatario);
+
+        // Contenido del correo
+        $mail->isHTML(true);
+        $mail->Subject = $asunto;
+        $mail->Body    = $mensaje;
+
+        $mail->send();
+        return true;
+    } catch (Exception $e) {
+        echo "No se pudo enviar el correo (╥_╥). Mailer Error: {$mail->ErrorInfo}";
+        return false;
+    }
+}}
+
+function obtenerProveedorCorreo($correo) {
+    // Obtener el proveedor de la dirección de correo electrónico
+    $partesCorreo = explode('@', $correo);
+    
+    if (count($partesCorreo) == 2) {
+        return $partesCorreo[1];
+    } else {
+        return ''; // Devolver cadena vacía si no se puede determinar el proveedor
+    }
+}
+
+function recuperarContrasena($correo) {
+    // Lógica para recuperar la contraseña
+
+    // Generar nueva contraseña
+    $nuevaContrasena = generarNuevaContrasena();
+
+    // Actualizar en la base de datos
+    if (actualizarContrasenaEnBaseDeDatos($correo, $nuevaContrasena)) {
+
+        // Enviar la nueva contraseña por correo electrónico
+        $asunto = "Recuperación de Contraseña";
+        $mensaje = "Tu nueva contraseña es: $nuevaContrasena";
+
+        // Determinar el proveedor (puedes implementar lógica adicional para obtener el proveedor)
+        $proveedor = obtenerProveedorCorreo($correo);
+
+        // Enviar correo electrónico con el proveedor
+        if (enviarCorreo($correo, $asunto, $mensaje, $proveedor)) {
+            return true; // Éxito
+            echo "El correo se evnvió correctamente";
+
+        } else {
+            return false; // Error al enviar el correo
+            echo "No se pudo enviar el correo. Mailer Error: {$mail->ErrorInfo}";
+        }
+    } else {
+        return false; // Error al actualizar la contraseña en la base de datos
+    }
+}
+
+function generarNuevaContrasena($longitud = 10) {
+    // Genera una nueva contraseña aleatoria de longitud especificada
+    $caracteres = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    $nuevaContrasena = '';
+    
+    for ($i = 0; $i < $longitud; $i++) {
+        $nuevaContrasena .= $caracteres[rand(0, strlen($caracteres) - 1)];
+    }
+    
+    return $nuevaContrasena;
+}
+
+function actualizarContrasenaEnBaseDeDatos($correo, $nuevaContrasena) {
+    // Lógica para actualizar la contraseña en la base de datos
+    // Debes implementar esta función según la estructura de tu base de datos
+
+    // Ejemplo usando MySQLi
+    $conexion = new mysqli("localhost", "root", "", "lubricentro");
+
+    // Verifica la conexión
+    if ($conexion->connect_error) {
+        die("Error de conexión: " . $conexion->connect_error);
+    }
+
+    // Actualiza la contraseña en la base de datos
+    $consulta = $conexion->prepare("UPDATE usuario SET contrasenna = ? WHERE correo = ?");
+    $consulta->bind_param("ss", $nuevaContrasena, $correo);
+
+    $resultado = $consulta->execute();
+
+    // Cierra la conexión y la consulta
+    $consulta->close();
+    $conexion->close();
+
+    return $resultado;
 }
