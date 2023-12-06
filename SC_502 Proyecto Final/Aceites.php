@@ -43,9 +43,11 @@ $resultado = mysqli_query($conexion, $sql);
                     <div class="card custom-card">
                         <div class="card-body">
                             <h5 class="card-title">
-                                <img class="card-img-top custom-img-size" src="<?php echo $producto['imagen']; ?>" alt="">
-                                <?php echo $producto['descripcion']; ?>
+                                <img class="card-img-top custom-img-size" src="
+                                <?php echo $producto['imagen']; ?>" alt="">
+                                
                             </h5>
+                            <?php echo $producto['descripcion']; ?>
                             <form action="agregar_al_carrito.php" method="post">
                                 <input type="hidden" name="producto_id" value="<?php echo $producto['idProducto']; ?>">
                                 <input type="hidden" name="nombre" value="<?php echo $producto['descripcion']; ?>">

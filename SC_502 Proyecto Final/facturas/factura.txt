@@ -1,5 +1,8 @@
 Factura de Compra
 -----------------
-Aceite Sintético 5W-20 - $4400.00 x 1
+Alfombrillas de Goma para Automóvil - $14000.00 x 1
+Kit de Luces LED para Automóvil - $30000.00 x 1
+Cargador de Teléfono para Coche - $9000.00 x 1
+Espejos Retrovisores Deportivos - $18000.00 x 1
 -----------------
-Total: $4400
+Total: $71000

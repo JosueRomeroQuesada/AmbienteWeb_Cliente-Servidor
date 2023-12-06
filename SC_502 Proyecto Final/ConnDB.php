@@ -1,11 +1,13 @@
 <?php
 
+//cambiar los nombres si es necesario para que la base de datos conecte correctamente
 function ConnectDB() {
-  $server = "localhost:3305";
+  $server = "localhost";
   $user = "root";
   $password = "";
   $dataBase = "lubricentro";
 
+  //1. Establecer la conexión
   $conexion = mysqli_connect($server, $user, $password, $dataBase);
 
   if(!$conexion){
@@ -15,7 +17,7 @@ function ConnectDB() {
   return $conexion;
 }
 
-function Desconecta2($conexion) {
+function Desconecta($conexion) {
   mysqli_close($conexion);
 }
     

@@ -7,7 +7,7 @@
 }
 
 body {
-    background-image: url(../img/bg-login.jpg);
+    background-image: url(../imgs/wallpaper.jpg);
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
@@ -41,7 +41,7 @@ main {
 }
 
 .back_box div {
-    margin: 100px 80px;
+    margin: 100px 40px;
     color: white;
     transition: all 500ms;
 }

@@ -988,22 +988,10 @@ td {
     font-size: 12px;
 }
 
-#suggestions .search-result a {
-    color: white;
-}
-
-.search-result a {
-    color: white !important;
-}
-
 .product .product-img .product-label>span.sale {
     background-color: #FFF;
     border-color: #D10024;
     color: #D10024;
-}
-
-.search-result {
-    color: white;
 }
 
 .product .product-img .product-label>span.new {
@@ -2358,7 +2346,7 @@ td {
     /* Estilos personalizados para las tarjetas */
     border: 1px solid #ccc;
     border-radius: 10px;
-    padding: 30px;
+    padding: 35px;
     /* Añade más espacio entre el contenido de la tarjeta y los bordes */
 }
 
