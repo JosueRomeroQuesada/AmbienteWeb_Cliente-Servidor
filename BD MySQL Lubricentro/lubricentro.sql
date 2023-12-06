@@ -151,7 +151,7 @@ CREATE TABLE `rol` (
 
 INSERT INTO `rol` (`idRol`, `descripcion`) VALUES
 (1, 'usuario'),
-(2, 'admin'),
+(2, 'admin');
 -- --------------------------------------------------------
 
 --
